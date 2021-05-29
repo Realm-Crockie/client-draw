@@ -40,24 +40,30 @@ const fieldDraw = (state = initialState, action) => {
                 
     case "CHANGE_COLOR":
       return { ...state, currentColor: action.payload.color};
-    case "SAVE_HISTORY_TITLE":
+    // case "SAVE_HISTORY_TITLE":
 
-    let newDraw =  {name:action.payload.historyTitle, 
-      field: state.field, 
-      pixelSize: state.pixelSize,
-      fieldSize: state.fieldSize,
-      username:"Keness"
-    }
-    axios.post('https://draw-pixel-server.herokuapp.com/draw', newDraw)
-    .then(function (res) {
-      console.log(res);
-    })
-      return { ...state, drawHistory:[...state.drawHistory, newDraw ]};
+    // let newDraw =  {name:action.payload.historyTitle, 
+    //   field: state.field, 
+    //   pixelSize: state.pixelSize,
+    //   fieldSize: state.fieldSize,
+    //   username:"Roman"
+    // }
+    // axios.post('https://draw-pixel-server.herokuapp.com/draw', newDraw)
+    // .then(function (res) {
+    //   console.log(res);
+    // })
+    //   return { ...state, drawHistory:[...state.drawHistory, newDraw ]};
       
+      case "DELETE_FROM_HISTORY":
+          let newHistory = state.drawHistory.filter(el=> el !== action.payload.index)
+          return  {...state, drawHistory: newHistory}
+          
+
     case "GET_FIELD_FROM_HISTORY":
       return { ...state,...state.drawHistory[action.payload.index]}
 
       case "GET_DRAWS_FROM_SERVER":
+        console.log(action.payload)
         return { ...state , drawHistory: action.payload}
           
       case "GET_PIXEL_COLOR":

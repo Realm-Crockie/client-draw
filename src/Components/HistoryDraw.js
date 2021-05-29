@@ -1,22 +1,48 @@
 import React, { useState,useEffect} from "react";
 import axios from 'axios';
 import { connect } from "react-redux";
-import {getDraw} from "../redux/action"
+import {getDraw, deleteDrawFromHistory} from "../redux/action"
 const HistoryDraw = (props) => {
   useEffect(()=>{
     props.getDraw()
   },[])
-const {drawHistory, setDrawHistory, getFieldFromHistory,getDrawFromServer} = props;
+const {drawHistory,field, pixelSize, fieldSize, setDrawHistory, getFieldFromHistory,getDrawFromServer,deleteFromHistory} = props;
 const [historyInp, setHistoryInp] = useState("");
 
 
 const addToDrawHistory = () => {
   if (historyInp.trim() !== "") {
-    setDrawHistory(historyInp)
+
+
+    let newDraw =  {name: historyInp, 
+      field, 
+      pixelSize,
+      fieldSize,
+      username:"Roman"
+    }
+    axios.post('https://draw-pixel-server.herokuapp.com/draw', newDraw)
+    .then(function (res) {
+      if (res.status === 200){
+        props.getDraw()
+      }
+      })
+      .catch((error)=>console.log(error))
+}
+
+
     setHistoryInp("");
-  }
+
 };
 
+const deleteDraw = (id)=>{
+  axios.delete(`https://draw-pixel-server.herokuapp.com/draw/${id}`)
+          .then((res) =>{
+          if (res.status === 200){
+            props.getDraw()
+          }
+          })
+          .catch((error)=>console.log(error))
+}
 
 
   return <div className="drawHistory mg-10">
@@ -38,7 +64,7 @@ const addToDrawHistory = () => {
       <div className= "item_wrap"> 
       <div className="child-grow" onClick={() => getFieldFromHistory(i)}>{item.name}</div> 
       
-      <div><button className="btn">X</button></div>
+      <div><button className="btn" onClick={()=>deleteDraw(item._id)}>X</button></div>
       
       </div>
       
@@ -47,27 +73,26 @@ const addToDrawHistory = () => {
     
 </div>
   
-}
+    }
 
 const mapStateToProps = (state) => ({
-  drawHistory: state.drawHistory
+  drawHistory: state.drawHistory,
+  field: state.field, 
+  pixelSize: state.pixelSize,
+  fieldSize: state.fieldSize,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  
-  setDrawHistory: (historyTitle) =>
-    dispatch({
-      type: "SAVE_HISTORY_TITLE",
-      payload: {historyTitle},
-
-    }),
+ 
     getFieldFromHistory: (index) =>
     dispatch({
       type: "GET_FIELD_FROM_HISTORY",
       payload: {index},
 
     }),
-  getDraw:()=>dispatch(getDraw())
+  
+  getDraw:()=>dispatch(getDraw()),
+  //deleteDrawFromHistory:(id)=>dispatch(deleteDrawFromHistory(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryDraw);
