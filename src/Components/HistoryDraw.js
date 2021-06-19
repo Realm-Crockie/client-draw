@@ -11,7 +11,7 @@ const [historyInp, setHistoryInp] = useState("");
 
 
 const addToDrawHistory = () => {
-  if (historyInp.trim() !== "") {
+  if (historyInp.trim() !== "" && !drawHistory.includes(historyInp)) {
 
 
     let newDraw =  {name: historyInp, 
@@ -51,12 +51,12 @@ const deleteDraw = (id)=>{
     value={historyInp}
     maxlength="15"
     size="17"
-    onChange={(e) => setHistoryInp(e.target.value)}
+    onChange={(e) => setHistoryInp(e.target.value.trim())}
   />
   <button onClick={addToDrawHistory}>Save</button>
   <button onClick={getDraw}>GET draw</button>
  
-
+<div className="scroll-list">
         <ul className="list-ul">
     {drawHistory.map((item,i)=> 
     
@@ -70,7 +70,7 @@ const deleteDraw = (id)=>{
       
       </li>)}
     </ul>
-    
+    </div>
 </div>
   
     }

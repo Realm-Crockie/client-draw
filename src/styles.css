@@ -1,3 +1,7 @@
+.App {
+display: flex;
+}
+
 body{
   background: gray;
 }
@@ -38,7 +42,7 @@ body{
   background: rgb(236, 255, 197);
   border: 1px solid rgb(194, 255, 71);
 padding: 2px 5px;
-margin: 5px 3px 5px ;
+margin: 5px 3px 5px -30px;
 border-radius: 4px;
 }
 .list-li:hover{
@@ -70,4 +74,16 @@ width: 200px;
 
 .list-ul{
   list-style-type: none;
+}
+.scroll-list{
+  height:300px;
+  width:200px;
+  overflow-y:scroll;
+  background-color: rgb(88, 87, 87);
+}
+.field-Size{
+  padding-right: 40px;
+}
+.wid-80{
+  width: 80px;
 }

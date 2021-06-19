@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 const FieldSize = (props) => {
 const { fieldSize,changeFieldSize}=props
   return  <>
-<div className="field-Size mg-10">
+<div className="field-Size mg-10 wid-80">
 <div>
   <input
     type="radio"
@@ -16,7 +16,7 @@ const { fieldSize,changeFieldSize}=props
   <label for="huey">100px</label>
 </div>
 
-<div>
+<div >
   <input
     type="radio"
     onChange={() => changeFieldSize(400)}
